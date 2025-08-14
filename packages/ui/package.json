@@ -10,7 +10,10 @@
   "exports": {
     "./styles.css": "./dist/index.css",
     "./*": "./dist/*.js",
-    "./appBar":"./src/appBar.tsx"
+    "./appBar":"./src/AppBar.tsx",
+    "./center": "./src/Center.tsx",
+    "./select": "./src/Select.tsx",
+    "./textInput": "./src/TextInput.tsx"
   },
   "license": "MIT",
   "scripts": {
