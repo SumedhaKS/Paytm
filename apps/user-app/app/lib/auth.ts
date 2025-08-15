@@ -1,4 +1,4 @@
-import db from "@repo/db/client"              
+import db from "@repo/db/client"
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
@@ -14,18 +14,15 @@ export const authOptions = {
             // TODO: User credentials type from next-auth
             async authorize(credentials: any) {
                 //Do zod validation , otp validation here
-                console.log("Entered authorize ...... \n \n Credentials: ", credentials)
                 const hashedPassword = await bcrypt.hash(credentials.password, 10);
                 const existingUser = await db.user.findFirst({
                     where: {
                         number: credentials.phone
                     }
                 })
-                console.log("Entered authorize and: ...... \n \n ", existingUser)
+
                 if (existingUser) {
-                    console.log("entered comparision")
                     const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
-                    console.log(passwordValidation)
                     if (passwordValidation) {
                         return {
                             id: existingUser.id.toString(),
@@ -37,7 +34,6 @@ export const authOptions = {
                 }
 
                 try {
-                    console.log("entered try")
                     const user = await db.user.create({
                         data: {
                             number: credentials.phone,
@@ -45,7 +41,7 @@ export const authOptions = {
                             email: credentials.email
                         }
                     })
-                    return {                                
+                    return {
                         id: user.id.toString(),
                         name: user.name || user.number,         // fallback if name is null
                         email: user.number
@@ -61,7 +57,7 @@ export const authOptions = {
     ],
     secret: process.env.JWT_SECRET || "whoisit",
     callbacks: {
-        async session({token, session}:any ){
+        async session({ token, session }: any) {
             session.user.id = token.sub
             return session
         }

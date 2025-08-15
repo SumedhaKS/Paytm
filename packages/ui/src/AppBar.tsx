@@ -1,3 +1,4 @@
+import { Button } from "./Button";
 
 interface AppbarProps {
     user?: {
@@ -13,10 +14,12 @@ export const AppBar = ({
     onSignout
 }: AppbarProps) => {
 
-    return <div>
-        <div className="flex justify-between border-b-1 m-1">
-            <h1 className="p-2 mx-10 my-5 text-2xl ">PayTM</h1>
-            <button onClick={user ? onSignout : onSignin} className="font-semibold bg-blue-950 text-amber-50 border-2 m-5 px-5 py-2 rounded-2xl">{user ? "Logout" : "Login"}</button>
+    return <div className="flex justify-between border-b px-4 border-slate-300">
+        <div className="text-2xl flex flex-col justify-center pl-5">
+            PayTM
+        </div>
+        <div className="flex flex-col justify-center pt-2">
+            <Button onClick={user? onSignout: onSignin}>{user? "Logout": "Login"}</Button>
         </div>
     </div>
 

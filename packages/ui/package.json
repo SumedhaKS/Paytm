@@ -13,7 +13,9 @@
     "./appBar":"./src/AppBar.tsx",
     "./center": "./src/Center.tsx",
     "./select": "./src/Select.tsx",
-    "./textInput": "./src/TextInput.tsx"
+    "./textInput": "./src/TextInput.tsx",
+    "./button": "./src/Button.tsx",
+    "./card": "./src/Card.tsx"
   },
   "license": "MIT",
   "scripts": {
