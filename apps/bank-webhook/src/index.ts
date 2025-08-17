@@ -3,11 +3,21 @@ import db from "@repo/db/client";
 
 const app = express();
 
+app.use(express.json())
+
+app.get('/', (req,res)=>{
+    res.json({msg : "Hitting"})
+})
+
 app.post("/hdfcWebhook", async (req, res) => {
     // Zod validation to be done
     // Check if the req is legit. (ie. req actually coming from hdfc.) Use a webhook secret here.
 
-    const paymentInformation = {
+    const paymentInformation:{
+        token: string,
+        userId: string,
+        amount: string
+    } = {
         token: req.body.token,
         userId: req.body.user_identifier,
         amount: req.body.amount
@@ -17,11 +27,11 @@ app.post("/hdfcWebhook", async (req, res) => {
         await db.$transaction([
             db.balance.update({
                 where: {
-                    userId: paymentInformation.userId,
+                    userId: Number(paymentInformation.userId),
                 },
                 data: {
                     amount: {
-                        increment: paymentInformation.amount
+                        increment: Number(paymentInformation.amount)
                     }
                 }
             }),
@@ -50,3 +60,8 @@ app.post("/hdfcWebhook", async (req, res) => {
     }
 
 })
+
+
+app.listen(5000, ()=> {
+    console.log("Listening on port 5000")
+});
